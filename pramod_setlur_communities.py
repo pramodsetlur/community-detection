@@ -14,6 +14,13 @@ def read_input_to_graph(input_file):
 
     return g
 
+def format_list(communities):
+    formatted_communities = []
+    for community in communities:
+        formatted_communities.append(list(community))
+
+    return formatted_communities
+
 def compute_best_community(original_g):
     max_modularity = -1
     total_nodes = nx.number_of_nodes(original_g)
@@ -27,9 +34,15 @@ def compute_best_community(original_g):
         g.remove_edge(max_betweenness[0], max_betweenness[1])
         connected_subgraphs = nx.connected_components(g)
 
+        #Copying the items of the generator to a list
+        connected_subgraphs_list = []
+        for i in connected_subgraphs:
+            connected_subgraphs_list.append(i)
+
         community_dict = {}
         community_number = 0
-        for subgraph in connected_subgraphs:
+
+        for subgraph in connected_subgraphs_list:
             community_number += 1
             for node in subgraph:
                 community_dict[node] = community_number
@@ -37,15 +50,11 @@ def compute_best_community(original_g):
         modularity = community.modularity(community_dict, original_g)
         if modularity > max_modularity:
             max_modularity = modularity
-            communities = connected_subgraphs
-
-            print "max modularity increased"
-            for i in connected_subgraphs:
-                print i
-
+            communities = list(connected_subgraphs_list)
         community_count += 1
 
-    print max_modularity
+    communities = format_list(communities)
+    return communities, max_modularity
 
 
 if __name__ == '__main__':
@@ -56,4 +65,4 @@ if __name__ == '__main__':
         #image = sys.argv[2]
 
         g = read_input_to_graph(input_file)
-        compute_best_community(g)
+        communities, max_modularity = compute_best_community(g)
