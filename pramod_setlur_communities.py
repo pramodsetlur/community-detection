@@ -2,6 +2,7 @@ import networkx as nx
 import sys
 import community
 import operator
+import matplotlib
 
 def read_input_to_graph(input_file):
     g = nx.Graph()
@@ -17,9 +18,11 @@ def read_input_to_graph(input_file):
 def format_list(communities):
     formatted_communities = []
     for community in communities:
-        formatted_communities.append(list(community))
+        char_community = sorted(list(community))
+        int_community = map(int, char_community)
+        formatted_communities.append(sorted(list(int_community)))
 
-    return formatted_communities
+    return sorted(formatted_communities)
 
 def compute_best_community(original_g):
     max_modularity = -1
@@ -54,15 +57,19 @@ def compute_best_community(original_g):
         community_count += 1
 
     communities = format_list(communities)
+
     return communities, max_modularity
 
+def draw_graph(image, communities, g):
+    print "test"
 
 if __name__ == '__main__':
-    if (len(sys.argv) != 2):
+    if (len(sys.argv) != 3):
         print "USAGE: python pramod_setlur_community.pdf [INPUT_FILE] [IMAGE]"
     else:
         input_file = sys.argv[1]
-        #image = sys.argv[2]
+        image = sys.argv[2]
 
         g = read_input_to_graph(input_file)
         communities, max_modularity = compute_best_community(g)
+        draw_grap(image, communities, g)
