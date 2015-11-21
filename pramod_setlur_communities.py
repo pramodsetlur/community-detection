@@ -15,15 +15,19 @@ def read_input_to_graph(input_file):
 
     return g
 
+#Communities is a list of sets. Returns a list of lists instead.
 def format_list(communities):
     formatted_communities = []
     for community in communities:
         char_community = sorted(list(community))
+
+        #convert the character list to integer
         int_community = map(int, char_community)
         formatted_communities.append(sorted(list(int_community)))
 
     return sorted(formatted_communities)
 
+#Converting the generator to a list
 def convert_generator_list(connected_subgraphs):
     #Copying the items of the generator to a list
     connected_subgraphs_list = []
@@ -31,6 +35,7 @@ def convert_generator_list(connected_subgraphs):
         connected_subgraphs_list.append(i)
     return connected_subgraphs_list
 
+#Categorizing the nodes to a cluster number
 def categorize_nodes(connected_subgraphs_list):
     community_number = 0
     community_dict = {}
@@ -41,6 +46,7 @@ def categorize_nodes(connected_subgraphs_list):
 
     return community_dict
 
+#Computes  the best community
 def compute_best_community(original_g):
     max_modularity = -1
     total_nodes = nx.number_of_nodes(original_g)
@@ -48,6 +54,7 @@ def compute_best_community(original_g):
     g = original_g
     communities = []
 
+    #Generate all the communities: Loop thru taking the entire graph as 1 community to each node as a seperate community
     while community_count < total_nodes:
         betweenness = nx.edge_betweenness(g)
         max_betweenness = max(betweenness.iteritems(), key = operator.itemgetter(1))[0]
@@ -70,7 +77,11 @@ def compute_best_community(original_g):
     return communities, max_modularity
 
 def draw_graph(image, communities, g):
-    print "test"
+    print "matplotlib"
+
+def print_output(communities):
+    for community in communities:
+        print community
 
 if __name__ == '__main__':
     if (len(sys.argv) != 3):
@@ -79,7 +90,7 @@ if __name__ == '__main__':
         input_file = sys.argv[1]
         image = sys.argv[2]
 
-        g = read_input_to_graph(input_file)
-        communities, max_modularity = compute_best_community(g)
-        print communities
-        draw_graph(image, communities, g)
+        graph = read_input_to_graph(input_file)
+        communities, max_modularity = compute_best_community(graph)
+        print_output(communities)
+        draw_graph(image, communities, graph)
