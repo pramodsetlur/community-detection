@@ -3,6 +3,7 @@ import sys
 import community
 import operator
 import matplotlib.pyplot as plt
+import copy
 
 def read_input_to_graph(input_file):
     g = nx.Graph()
@@ -12,7 +13,6 @@ def read_input_to_graph(input_file):
             each_line = each_line.strip('\n').split()
             g.add_edge(each_line[0], each_line[1])
     file.close()
-
     return g
 
 #Communities is a list of sets. Returns a list of lists instead.
@@ -121,6 +121,8 @@ def draw_graph(image, communities, graph):
 
 def draw_graph2(graph):
     #nx.draw_networkx(graph)
+    pos = nx.spring_layout(graph)
+    nx.draw_networkx(graph, pos)
     plt.axis('off')
     plt.savefig("labels_and_colors.png") # save as png
     plt.show() # display
@@ -131,13 +133,15 @@ def print_output(communities):
 
 if __name__ == '__main__':
     if (len(sys.argv) != 3):
-        print "USAGE: python pramod_setlur_community.pdf [INPUT_FILE] [IMAGE]"
+        print "USAGE: python pramod_setlur_community.pdf [INPUT_FILE] [IMAGE_FILE]"
     else:
         input_file = sys.argv[1]
         image = sys.argv[2]
 
         graph = read_input_to_graph(input_file)
+        original_graph = graph.copy()
         communities, max_modularity = compute_best_community(graph)
         print_output(communities)
+        draw_graph2(original_graph)
+
         #draw_graph(image, communities, graph)
-        draw_graph2(graph)
