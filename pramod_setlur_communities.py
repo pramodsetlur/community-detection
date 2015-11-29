@@ -95,7 +95,7 @@ def draw_graph(graph, communities, image):
 
 def print_output(communities):
     for community in communities:
-        print community
+        print repr(community).replace(' ','')
 
 if __name__ == '__main__':
     if (len(sys.argv) != 3):
