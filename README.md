@@ -16,3 +16,4 @@ Initially the entire graph is considered as one community. Loop the following un
   4. if the max_modularity has increased:
       Update the max_modularity
       Update the communities list
+
