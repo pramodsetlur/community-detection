@@ -127,7 +127,7 @@ def draw_graph2(graph):
     plt.savefig("labels_and_colors.png") # save as png
     plt.show() # display
 
-def draw_graph3(graph, communities, image):
+def draw_graph(graph, communities, image):
     rand_value = random.random()
     val_map={}
 
@@ -159,4 +159,4 @@ if __name__ == '__main__':
         original_graph = graph.copy()
         communities, max_modularity = compute_best_community(graph)
         print_output(communities)
-        draw_graph3(original_graph, communities, image)
+        draw_graph(original_graph, communities, image)
