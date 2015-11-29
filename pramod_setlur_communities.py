@@ -3,7 +3,7 @@ import sys
 import community
 import operator
 import matplotlib.pyplot as plt
-import copy
+import random
 
 def read_input_to_graph(input_file):
     g = nx.Graph()
@@ -127,6 +127,23 @@ def draw_graph2(graph):
     plt.savefig("labels_and_colors.png") # save as png
     plt.show() # display
 
+def draw_graph3(graph, communities, image):
+    rand_value = random.random()
+    val_map={}
+
+    for community in communities:
+        count = random.random()
+        for each_value in community:
+            val_map[each_value] = rand_value / count
+
+    values = []
+    for node in graph.nodes():
+        values.append(val_map.get(int(node), 0.25))
+
+    nx.draw_networkx(graph, cmap = plt.get_cmap('jet'), node_color = values)
+    plt.axis('off')
+    plt.savefig(image)
+
 def print_output(communities):
     for community in communities:
         print community
@@ -142,6 +159,4 @@ if __name__ == '__main__':
         original_graph = graph.copy()
         communities, max_modularity = compute_best_community(graph)
         print_output(communities)
-        draw_graph2(original_graph)
-
-        #draw_graph(image, communities, graph)
+        draw_graph3(original_graph, communities, image)
