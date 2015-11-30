@@ -77,23 +77,23 @@ def compute_best_community(original_g):
     return communities, max_modularity
 
 def draw_graph(graph, communities, image):
-   val_map={}
+    val_map={}
 
-   for community in communities:
-       start_value = 10
-       end_value = 125040
-       rand_number = 25 * random.randint(start_value, end_value)
-       for node in community:
-           normalized_rand_number = rand_number
-           val_map[node] = normalized_rand_number
+    for community in communities:
+        start_value = 10
+        end_value = 125040
+        rand_number = 25 * random.randint(start_value, end_value)
+        for node in community:
+            normalized_rand_number = rand_number
+            val_map[node] = normalized_rand_number
 
-   values = []
-   for node in graph.nodes():
-       values.append(val_map.get(int(node), 0.25))
+    values = []
+    for node in graph.nodes():
+        values.append(val_map.get(int(node), 0.25))
 
-   nx.draw_networkx(graph, cmap = plt.get_cmap('jet'), node_color = values)
-   plt.axis('off')
-   plt.savefig(image)
+    nx.draw_networkx(graph, cmap = plt.get_cmap('jet'), node_color = values)
+    plt.axis('off')
+    plt.savefig(image)
 
 def print_output(communities):
     for community in communities:
