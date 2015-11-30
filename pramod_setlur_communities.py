@@ -78,6 +78,7 @@ def compute_best_community(original_g):
 
 def draw_graph(graph, communities, image):
     val_map={}
+    pos = nx.spring_layout(graph)
 
     for community in communities:
         start_value = 10
@@ -91,7 +92,7 @@ def draw_graph(graph, communities, image):
     for node in graph.nodes():
         values.append(val_map.get(int(node), 0.25))
 
-    nx.draw_networkx(graph, cmap = plt.get_cmap('jet'), node_color = values)
+    nx.draw_networkx(graph, pos, cmap = plt.get_cmap('jet'), node_color = values)
     plt.axis('off')
     plt.savefig(image)
 
