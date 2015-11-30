@@ -82,7 +82,7 @@ def draw_graph(graph, communities, image):
    for community in communities:
        start_value = 10
        end_value = 125040
-       rand_number = random.randint(start_value, end_value) * 25
+       rand_number = 25 * random.randint(start_value, end_value)
        for node in community:
            normalized_rand_number = rand_number
            val_map[node] = normalized_rand_number
